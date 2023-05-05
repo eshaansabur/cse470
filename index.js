@@ -1,4 +1,4 @@
-const { MongoClient, ServerApiVersion } = require('mongodb');
+const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 const express= require('express');
 const port = process.env.PORT || 5000;
 const cors = require('cors');
@@ -7,7 +7,7 @@ const app= express();
 //middleware
 app.use(cors());
 app.use(express.json());
-const {ObjectId} = require('mongodb');
+//const {ObjectId} = require('mongodb');
 app.get('/', (req, res)=>{
     res.send('running genius server');
 })
@@ -26,7 +26,7 @@ async function run() {
   try {
     // Connect the client to the server	(optional starting in v4.7)
     await client.connect();
-    console.log("Genius Car DB Connected");
+    console.log("DB Connected");
     // Send a ping to confirm a successful connection
     //await client.db("admin").command({ ping: 1 });
     app.get('/products', async(req, res) =>{
@@ -39,8 +39,8 @@ async function run() {
     app.get('/product/:productId', async(req, res) => {
         const productCollection = client.db('cse470').collection('products');
         const productId = req.params.productId;
-        const query = {_id: ObjectId(productId)};
-        //console.log(query);
+        const query = {_id: new ObjectId(productId).toString()};
+        console.log(query);
         const product = await productCollection.findOne(query);
         //console.log(blogs);
         res.send(product);
