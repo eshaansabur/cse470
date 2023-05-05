@@ -46,6 +46,30 @@ async function run() {
         res.send(product);
 
     })
+
+    app.get('/orders', async(req, res) =>{
+        const orderCollection = client.db('cse470').collection('orders');
+        const query = {};
+        const cursor = orderCollection.find(query);
+        const orders = await cursor.toArray();
+        res.send(orders);
+    })
+
+    app.post('/makeOrder', async(req, res) =>{
+        const orderCollection = client.db('cse470').collection('orders');
+        const newOrder = req.body;
+        const result = orderCollection.insertOne(newOrder);
+        res.send(result);
+
+    })
+
+    app.post('/product', async(req, res) =>{
+        const productCollection = client.db('cse470').collection('products');
+        const newProduct = req.body;
+        const result = productCollection.insertOne(newProduct);
+        res.send(result);
+
+    })
     console.log("Pinged your deployment. You successfully connected to MongoDB!");
   } finally {
     // Ensures that the client will close when you finish/error
