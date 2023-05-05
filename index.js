@@ -39,7 +39,7 @@ async function run() {
     app.get('/product/:productId', async(req, res) => {
         const productCollection = client.db('cse470').collection('products');
         const productId = req.params.productId;
-        const query = {_id: new ObjectId(productId)};
+        const query = {_id: ObjectId(productId)};
         //console.log(query);
         const product = await productCollection.findOne(query);
         //console.log(blogs);
